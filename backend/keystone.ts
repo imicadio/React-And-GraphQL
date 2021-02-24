@@ -1,5 +1,6 @@
 import { config, createSchema } from '@keystone-next/keystone/schema';
 import 'dotenv/config';
+import { User } from './schemas/User';
 
 const databaseURL = process.env.DATABASE_URL || 'mongodb://localhost/keystone-sick-fits-tutorial';
 
@@ -20,10 +21,10 @@ export default config({
         url: databaseURL,
     },
     lists: createSchema({
-
+        User: User
     }),
     ui: {
         isAccessAllowed: () => true,
     },
-    
+
 });
