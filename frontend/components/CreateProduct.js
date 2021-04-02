@@ -4,6 +4,7 @@ import useForm from '../lib/useForm';
 import { ALL_PRODUCTS_QUERY } from './Products';
 import Form from './styles/Form';
 import DisplayError from './ErrorMessage';
+import Router from 'next/router';
 
 const CREATE_PRODUCT_MUTATION = gql`
     mutation CREATE_PRODUCT_MUTATION(
@@ -47,8 +48,12 @@ export default function CreateProduct() {
     return (
         <Form onSubmit={async (e) => {
                 e.preventDefault();
-                await createProduct();
+                const res = await createProduct();
                 clearForm();
+                // Go to that's product page
+                Router.push({
+                    pathname: `/product/${res.data.createProduct.id}`
+                });
             }}>
             <DisplayError error={error} />
             <fieldset disabled={loading} aria-busy={loading}>
