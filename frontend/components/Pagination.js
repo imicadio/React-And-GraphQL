@@ -7,7 +7,7 @@ import PaginationStyles from './styles/PaginationStyles';
 import { perPage } from '../config';
 // 🠐 🠒
 
-const PAGINATION_QUERY = gql`
+export const PAGINATION_QUERY = gql`
     query PAGINATION_QUERY {
         _allProductsMeta {
             count
