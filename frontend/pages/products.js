@@ -1,7 +1,12 @@
+import Pagination from "../components/Pagination";
 import Products from "../components/Products";
 
 export default function OrderPage() {
-    return <div>
-        <Products />
-    </div>
+    return (
+        <div>
+            <Pagination page={1} />
+            <Products />
+            <Pagination page={1} />
+        </div>
+    );
 }
