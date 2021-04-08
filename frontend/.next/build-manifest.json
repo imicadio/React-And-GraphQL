@@ -24,6 +24,11 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
+    "/reset": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/reset.js"
+    ],
     "/signin": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
