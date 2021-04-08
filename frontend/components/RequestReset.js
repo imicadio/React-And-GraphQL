@@ -4,28 +4,23 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
 import DisplayError from './ErrorMessage';
 
-const SIGNUP_MUTATION = gql`
-    mutation SIGNUP_MUTATION(
-            $email: String!, 
-            $name: String!, 
-            $password: String!
+const REQUEST_RESET_MUTATION = gql`
+    mutation REQUEST_RESET_MUTATION(
+            $email: String!
         ) {
-        createUser(data: { email: $email, name: $name, password: $password }) {
-            id
-            email
-            name
+        sendUserPasswordResetLink(email: $email) {
+            code, 
+            message
         }
     }
 `;
 
-export default function SignUp() {
+export default function RequestReset() {
     const { inputs, handleChange, resetForm } = useForm({
         email: '',
-        name: '',
-        password: ''
     });
 
-    const [signup, {data, loading, error}] = useMutation(SIGNUP_MUTATION, {
+    const [signup, {data, loading, error}] = useMutation(REQUEST_RESET_MUTATION, {
         variables: inputs,
         // refetch the currently logged in user
         // refetchQueries: [{ query: CURRENT_USER_QUERY }]
@@ -47,10 +42,10 @@ export default function SignUp() {
 
     return (
         <Form method="POST" onSubmit={handleSubmit}>
-            <h2>Sign Up For an Account</h2>
+            <h2>Request a Password Reset</h2>
             <DisplayError error={error} />
             <fieldset>
-                {data?.createUser && <p>Signed up with {data.createUser.email} - Please Go Head and Sign in!</p>}
+                {data?.sendUserPasswordResetLink === null && <p>Success! Check your email for a link!</p>}
                 <label htmlFor="email">
                     Email
                     <input 
@@ -59,28 +54,6 @@ export default function SignUp() {
                         placeholder="Your email adsress"
                         autoComplete="email" 
                         value={inputs.email}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label htmlFor="name">
-                    Your name
-                    <input 
-                        type="text"
-                        name="name"
-                        placeholder="Your name"
-                        autoComplete="name" 
-                        value={inputs.name}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label htmlFor="password">
-                    Password
-                    <input 
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        autoComplete="password" 
-                        value={inputs.password}
                         onChange={handleChange}
                     />
                 </label>

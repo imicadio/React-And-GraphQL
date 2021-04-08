@@ -72,8 +72,8 @@ export default function SignIn() {
                         value={inputs.password}
                         onChange={handleChange}
                     />
-                    <button type="submit">Sign In!</button>
                 </label>
+                <button type="submit">Sign In!</button>
             </fieldset>
         </Form>
     );
