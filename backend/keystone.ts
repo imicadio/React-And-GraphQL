@@ -3,6 +3,7 @@ import { config, createSchema } from '@keystone-next/keystone/schema';
 import { withItemData, statelessSessions } from '@keystone-next/keystone/session';
 import { Product } from './schemas/Product';
 import { ProductImage } from './schemas/ProductImage';
+import { CartItem } from './schemas/CartItem';
 import { User } from './schemas/User';
 import 'dotenv/config';
 import { insertSeedData } from './seed-data';
@@ -50,7 +51,8 @@ export default withAuth(config({
     lists: createSchema({
         User,
         Product,
-        ProductImage
+        ProductImage,
+        CartItem
     }),
     ui: {
         isAccessAllowed: ({ session }) => {
