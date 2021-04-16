@@ -4,6 +4,7 @@ import PriceTag from './styles/PriceTag';
 import Link from 'next/Link';
 import formatMoney from '../lib/formatMoney';
 import DeleteProduct from './DeleteProduct';
+import AddToCart from './AddToCart';
 
 export default function Product({ product }) {
     return (
@@ -21,6 +22,7 @@ export default function Product({ product }) {
                         id: product.id
                     }
                 }}>Edit ✏</Link>
+                <AddToCart id={product.id} />
                 <DeleteProduct id={product.id}>
                     Delete
                 </DeleteProduct>
