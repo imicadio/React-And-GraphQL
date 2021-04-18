@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { loadStripe } from '@stripe/stripe-js';
-import { CardElement, Elements } from '@stripe/react-stripe-js';
+import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
 import SickButton from './styles/SickButton';
+import { useState } from "react";
+import nProgress from 'nprogress';
 
 const CheckoutFormStyles = styled.form`
     box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.04);
@@ -14,20 +16,53 @@ const CheckoutFormStyles = styled.form`
 
 const stripeLib = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
 
-function Checkout() {
+function CheckoutForm() {
+    const [error, setError] = useState();
+    const [loading, setLoading] = useState(false);
+    const stripe = useStripe();
+    const elements = useElements();
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
+        // 4242 4242 4242 4242
+        // 02/22 222 2222
+        // 1. Stop the firm from submitting and turn the loader one
         e.preventDefault();
+        setLoading(true);
         console.log('We gotta go some work');
+        // 2. Start the page transition
+        nProgress.start();
+        // 3. Create the payment method via stripe
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+            type: 'card',
+            card: elements.getElement(CardElement)
+        });
+        console.log(paymentMethod);
+        // 4. Handle any errors from stripe (tokens comes back here if successful)
+        if(error) {
+            setError(error);
+        }
+        // 5. Send token from step 3 to our keystone server, via a custom mutation!
+        // 6. Change the page to view the order
+        // 7. Close the cart
+        // 8. Turn the loader off
+        setLoading(false);
+        nProgress.done();
     }
 
     return (
+        <CheckoutFormStyles onSubmit={handleSubmit}>
+            {error && <p style={{ fontSize: 12 }}>{error.message}</p>}
+            <CardElement />
+            <SickButton>Check Out Now</SickButton>
+        </CheckoutFormStyles>              
+    );
+}
+
+function Checkout() {
+    return (
         <Elements stripe={stripeLib}>
-            <CheckoutFormStyles onSubmit={handleSubmit}>
-                <CardElement />
-                <SickButton>Check Out Now</SickButton>
-            </CheckoutFormStyles>
-        </Elements>        
+            <CheckoutForm />
+        </Elements>  
     );
 }
 
