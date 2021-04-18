@@ -2,9 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/next/dist/pages/_error": "pages/next/dist/pages/_error.js",
-  "/cart-items": "pages/cart-items.js",
-  "/order-items/[id]": "pages/order-items/[id].js",
-  "/order-items": "pages/order-items.js",
   "/orders": "pages/orders.js"
 }
